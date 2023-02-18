@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -19,6 +21,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
+    private Long kakaoId;
+
     @Column(nullable = false)
     private String password;
 
@@ -29,6 +33,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    @OneToMany
+    List<Folder> folders = new ArrayList<>();
+
     public User(String username, String password, String email, UserRoleEnum role) {
         this.username = username;
         this.password = password;
@@ -36,4 +43,16 @@ public class User {
         this.role = role;
     }
 
+    public User(String username, Long kakaoId, String password, String email, UserRoleEnum role) {
+        this.username = username;
+        this.kakaoId = kakaoId;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User kakaoIdUpdate(Long kakaoId) {
+        this.kakaoId = kakaoId;
+        return this;
+    }
 }
